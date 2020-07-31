@@ -5,8 +5,12 @@ using UnityEngine;
 public class SpawnFlamingHell : MonoBehaviour
 {
     GameObject flamingo;
-    public float SpawnInterval;
-    float timer;
+
+    private float timeBtwSpawn;
+    public float startTimeBtwSpawn;
+    public float decreaseTime;
+    public float minTime = 0.65f;
+
     public void Start()
     {
         flamingo = Resources.Load<GameObject>("Flamingo");
@@ -14,12 +18,14 @@ public class SpawnFlamingHell : MonoBehaviour
 
     public void Update()
     {
-        timer += Time.deltaTime;
-        if (timer > SpawnInterval)
+        if(timeBtwSpawn <= 0)
         {
-            GameObject spFlam = Instantiate(flamingo);
-            spFlam.transform.SetPositionAndRotation(transform.position, Quaternion.identity);
-            timer = 0;
+            Instantiate(flamingo, transform.position, Quaternion.identity);
+            timeBtwSpawn = startTimeBtwSpawn;
+        }
+        else
+        {
+            timeBtwSpawn -= Time.deltaTime;
         }
     }
 
